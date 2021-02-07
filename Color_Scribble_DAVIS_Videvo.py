@@ -104,6 +104,6 @@ if __name__ == '__main__':
 			img_out_fullres = cv2.cvtColor(img_out_fullres, cv2.COLOR_BGR2RGB)
 			Scribble = cv2.imread(scribble_path, 1)
 
-			cv2.imwrite(mask_fullres_path, Scribble)
-			cv2.imwrite(img_in_fullres_path, img_in_fullres)
+			#cv2.imwrite(mask_fullres_path, Scribble)
+			#cv2.imwrite(img_in_fullres_path, img_in_fullres)
 			cv2.imwrite(img_out_fullres_path, img_out_fullres)
