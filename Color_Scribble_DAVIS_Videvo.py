@@ -64,43 +64,46 @@ def check_path(path):
     if not os.path.exists(path):
         os.makedirs(path)
 
-input_paths = '/home/ztt/lty/interactive-deep-colorization-master/DAVIS-Videvo-test/DAVIS-gray'
-scribble_paths = '/home/ztt/lty/interactive-deep-colorization-master/DAVIS-Videvo-test/fixed_color_scribbles/DAVIS'
-output_paths = '/home/ztt/lty/interactive-deep-colorization-master/DAVIS-Videvo-result/DAVIS'
-imglist = text_readlines('./DAVIS-Videvo-test/DAVIS_test_imagelist.txt')
-classlist = text_readlines('./DAVIS-Videvo-test/DAVIS_test_class.txt')
+# run on tiantian's computer, for SVCNet paper
+if __name__ == '__main__':
+	
+	input_paths = '/home/ztt/lty/interactive-deep-colorization-master/DAVIS-Videvo-test/DAVIS-gray'
+	scribble_paths = '/home/ztt/lty/interactive-deep-colorization-master/DAVIS-Videvo-test/fixed_color_scribbles/DAVIS'
+	output_paths = '/home/ztt/lty/interactive-deep-colorization-master/DAVIS-Videvo-result/DAVIS'
+	imglist = text_readlines('./DAVIS-Videvo-test/DAVIS_test_imagelist.txt')
+	classlist = text_readlines('./DAVIS-Videvo-test/DAVIS_test_class.txt')
 
-input_paths = '/home/ztt/lty/interactive-deep-colorization-master/DAVIS-Videvo-test/videvo-gray'
-scribble_paths = '/home/ztt/lty/interactive-deep-colorization-master/DAVIS-Videvo-test/fixed_color_scribbles/videvo'
-output_paths = '/home/ztt/lty/interactive-deep-colorization-master/DAVIS-Videvo-result/videvo'
-imglist = text_readlines('./DAVIS-Videvo-test/videvo_test_imagelist.txt')
-classlist = text_readlines('./DAVIS-Videvo-test/videvo_test_class.txt')
+	input_paths = '/home/ztt/lty/interactive-deep-colorization-master/DAVIS-Videvo-test/videvo-gray'
+	scribble_paths = '/home/ztt/lty/interactive-deep-colorization-master/DAVIS-Videvo-test/fixed_color_scribbles/videvo'
+	output_paths = '/home/ztt/lty/interactive-deep-colorization-master/DAVIS-Videvo-result/videvo'
+	imglist = text_readlines('./DAVIS-Videvo-test/videvo_test_imagelist.txt')
+	classlist = text_readlines('./DAVIS-Videvo-test/videvo_test_class.txt')
 
-imgroot = define_test_list(imglist, classlist)
+	imgroot = define_test_list(imglist, classlist)
 
-for i in range(len(imgroot)):
-	for j in range(len(imgroot[i])):
-		classname = imgroot[i][j].split('/')[-2]
-		imgname = imgroot[i][j].split('/')[-1]
-		check_path(os.path.join(output_paths, classname))
+	for i in range(len(imgroot)):
+		for j in range(len(imgroot[i])):
+			classname = imgroot[i][j].split('/')[-2]
+			imgname = imgroot[i][j].split('/')[-1]
+			check_path(os.path.join(output_paths, classname))
 
-		input_path = os.path.join(input_paths, classname, imgname)
-		scribble_path = os.path.join(scribble_paths, classname, imgname.split('.')[0] + '.png')
+			input_path = os.path.join(input_paths, classname, imgname)
+			scribble_path = os.path.join(scribble_paths, classname, imgname.split('.')[0] + '.png')
 
-		mask_fullres_path = os.path.join(output_paths, classname, 'mask_' + imgname)
-		img_in_fullres_path = os.path.join(output_paths, classname, 'in_' + imgname)
-		img_out_fullres_path = os.path.join(output_paths, classname, imgname)
+			mask_fullres_path = os.path.join(output_paths, classname, 'mask_' + imgname)
+			img_in_fullres_path = os.path.join(output_paths, classname, 'in_' + imgname)
+			img_out_fullres_path = os.path.join(output_paths, classname, imgname)
 
-		'''
-		print(input_path)
-		print(scribble_path)
-		print(len(imglist))
-		'''
+			'''
+			print(input_path)
+			print(scribble_path)
+			print(len(imglist))
+			'''
 
-		mask_fullres, img_in_fullres, img_out_fullres = color_scribble(input_path, scribble_path)
-		img_out_fullres = cv2.cvtColor(img_out_fullres, cv2.COLOR_BGR2RGB)
-		Scribble = cv2.imread(scribble_path, 1)
+			mask_fullres, img_in_fullres, img_out_fullres = color_scribble(input_path, scribble_path)
+			img_out_fullres = cv2.cvtColor(img_out_fullres, cv2.COLOR_BGR2RGB)
+			Scribble = cv2.imread(scribble_path, 1)
 
-		cv2.imwrite(mask_fullres_path, Scribble)
-		cv2.imwrite(img_in_fullres_path, img_in_fullres)
-		cv2.imwrite(img_out_fullres_path, img_out_fullres)
+			cv2.imwrite(mask_fullres_path, Scribble)
+			cv2.imwrite(img_in_fullres_path, img_in_fullres)
+			cv2.imwrite(img_out_fullres_path, img_out_fullres)
